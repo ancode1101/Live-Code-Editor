@@ -1,38 +1,95 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Client from '../components/Client';
 import Editor from '../components/Editor';
-import { initSocket } from '../socket';
-// import { useLocation } from 'react-router-dom';
+import socket from '../socket';
+import toast from 'react-hot-toast';
+import ACTIONS from '../Actions'
+import { 
+  useLocation,
+  useNavigate, 
+  Navigate,
+  useParams,
+} from 'react-router-dom';
 
 const EditorPage = () => {
 
-  const [clients, setClients] = useState([
-    // { socketId: 1, username: 'Ankit S'},
-    // { socketId: 2, username: 'Jarin J'},
-    // { socketId: 3, username: 'Shyam Y'}
-  ]);
-
+  const [clients, setClients] = useState([]);
+  const { roomId } = useParams();
+   
   const socketRef = useRef(null);
-  const isSocketInitialized = useRef(false);
-  // const location = useLocation(); 
-  useEffect (() => {
-    const init = async () => {
-      socketRef.current = await initSocket();
-      isSocketInitialized.current = true;
-      // socketRef.current.emit(ACTIONS.JOIN, {
-      //   roomId,
-      //   username: location.state?.username,
-      // });
-    };
-    init();
+  // const isSocketInitialized = useRef(false);
+  const location = useLocation();
+  const reactNavigator = useNavigate(); 
+  useEffect(() => {
+    // Check if the socket is already connected
+    if (!socket.connected) {
+      // Connect to the server if not already connected
+      socket.connect();
+    }
+
+    socket.on('connect_error', (err) => handleErrors(err));
+    socket.on('connect_failed', (err) => handleErrors(err));
+
+    function handleErrors(e) {
+      console.log('socket error', e);
+      toast.error('Socket connection failed, try again later.');
+      reactNavigator('/');
+    }
+    // Log when connected
+    socket.on('connect', () => {
+      console.log('Connected to server');
+      
+      // Emit JOIN event with roomId and username when connected
+      socket.emit(ACTIONS.JOIN, {
+        roomId, // Assuming roomId is passed from location state
+        username: location.state?.username,
+      });
+
+      socket.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
+        if (username !== location.state?.username) {
+          // Assuming 'toast' is imported from 'react-hot-toast'
+          toast.success(`${username} joined the room.`);
+          console.log(`${username} joined`);
+        }
+        setClients(clients);
+      });
+        // Listening for disconnected
+      socket.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
+        toast.success(`${username} left the room.`);
+        setClients((prev) => {
+          return prev.filter(
+            (client) => client.socketId !== socketId
+          );
+        });
+      });
+      
+    });
+ 
+    // Clean up when component unmounts
     return () => {
-      // ... Add logic to disconnect socket or unregister listeners here
-      if (socketRef.current) {
-        socketRef.current.disconnect(); // Assuming socket.io provides a disconnect method
-        socketRef.current = null;
-      }
+      socket.disconnect();
+      socket.off(ACTIONS.JOINED);
+      socket.off(ACTIONS.DISCONNECTED);
     };
-  }, []);
+  }, [location]);
+
+  async function copyRoomId() {
+    try {
+      await navigator.clipboard.writeText(roomId);
+      toast.success('Room ID has been copied to your clipboard');
+    } catch (err) {
+      toast.error('Could not copy the Room ID');
+      console.error(err);
+    }
+  }
+
+  function leaveRoom() {
+    reactNavigator('/');
+  }
+
+  if (!location.state) {
+    return <Navigate to = "/" />; 
+  }
   
   return ( 
     <div className="mainWrap">
@@ -57,11 +114,11 @@ const EditorPage = () => {
             </div>
           </div>
         </div>
-        <button className="btn copyBtn">Copy ROOM ID</button>
-        <button className="btn leaveBtn">Leave</button>
+        <button className="btn copyBtn" onClick={copyRoomId}>Copy ROOM ID</button>
+        <button className="btn leaveBtn" on onClick={leaveRoom}>Leave</button>
       </div>
       <div className="editorWrap">
-        <Editor />
+        <Editor socket = {socket} roomId = {roomId}/>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import ACTIONS from '../Actions'
 import { 
   useLocation,
   useNavigate, 
-  Navigate,
+  Navigate,   
   useParams,
 } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ const EditorPage = () => {
 
   const [clients, setClients] = useState([]);
   const { roomId } = useParams();
-   
+  const CodeRef = useRef(null);
   const socketRef = useRef(null);
   // const isSocketInitialized = useRef(false);
   const location = useLocation();
@@ -52,6 +52,10 @@ const EditorPage = () => {
           console.log(`${username} joined`);
         }
         setClients(clients);
+        socket.emit(ACTIONS.SYNC_CODE, {
+          code: CodeRef.current,
+          socketId,
+        });
       });
         // Listening for disconnected
       socket.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
@@ -60,7 +64,7 @@ const EditorPage = () => {
           return prev.filter(
             (client) => client.socketId !== socketId
           );
-        });
+        }); 
       });
       
     });
@@ -118,7 +122,13 @@ const EditorPage = () => {
         <button className="btn leaveBtn" on onClick={leaveRoom}>Leave</button>
       </div>
       <div className="editorWrap">
-        <Editor socket = {socket} roomId = {roomId}/>
+        <Editor 
+          socket = {socket} 
+          roomId = {roomId} 
+          onCodeChange= {(code) => {
+            CodeRef.current = code;
+          }}
+        />
       </div>
     </div>
   );

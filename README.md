@@ -1,71 +1,63 @@
-# Getting Started with Create React App
+¬¬Live Code Editor
+–	PROJECT PROPOSAL
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#Introduction:
+The Live Code Editor project aims to revolutionize collaborative coding experiences by providing a real-time editing environment accessible through a web-based platform. In today's digital landscape, collaboration is key to innovation, and the ability to seamlessly edit code together in real-time is invaluable for teams working on software development projects. With the Live Code Editor, users will have the capability to join specific rooms identified by unique IDs, where they can collaboratively edit code while observing changes made by others instantaneously. This project seeks to address the growing need for efficient and interactive coding environments, empowering users to collaborate effectively irrespective of geographical constraints. 
 
-## Available Scripts
+#Objectives:
+The primary objectives of the Live Code Editor project are outlined as follows:
+1.	Real-Time Collaboration: Develop a platform that enables multiple users to collaborate on code editing in real-time within designated "rooms" identified by unique IDs.
+2.	Seamless Synchronization: Implement mechanisms to ensure seamless synchronization of code changes among all users within the same room, allowing them to view modifications instantly as they occur
+3.	User-Friendly Interface: Design an intuitive and user-friendly interface that facilitates efficient code editing and collaboration, catering to both novice and experienced programmers.
+4.	Scalability and Performance: Ensure the platform's scalability and performance to handle concurrent users efficiently, maintaining responsiveness and stability even during peak usage periods.
 
-In the project directory, you can run:
+#Scope:
+        Live Code Editor project will encompass the following functionalities:
+•	Real-Time Code Editing:
+•	Room Management:
+•	User Authentication and Authorization:
+•	Performance and Scalability
+•	User Interface and Experience
 
-### `npm start`
+#Methodology:
+1.	¬¬Development Cycles: Agile involves dividing the project into smaller iterations or sprints, each focusing on specific features or components. These iterations are short, typically spanning a few weeks, and aim to deliver a functional part of the application.
+2.	Collaboration and Communication: Agile promotes open and frequent communication among team members and stakeholders. It encourages collaboration, information sharing, and real- time feedback.
+3.	User-Centric Approach: Agile places a strong emphasis on understanding and addressing user needs. You actively involve potential users, collect their feedback, and use it to guide feature development.
+4.	Flexibility and Adaptability: Agile allows for changes in project requirements and priorities even after development has started. This flexibility ensures the project can adapt to evolving need.
+5.	Continuous Testing and Quality Assurance: Agile emphasizes ongoing testing and quality assurance throughout the development process to maintain high standards and reduce the likelihood of bugs.
+6.	Milestone-Based Progress Tracking: Agile relies on milestones and key performance indicators (KPIs) to measure and track progress. It helps in assessing the achievement of project goals.
+7.	Adaptive Planning: Agile acknowledges that project plans may evolve over time. You can adapt the project's direction in response to new information, such as changing user needs or technological advancements.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Tools & Technology:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#The project will utilize the following tools and technologies:
 
-### `npm test`
+•	Frontend: JavaScript (React.js)
+•	Backend: Node.js, Express.js
+•	Database: MongoDB
+•	Real-time communication: WebSocket (Socket.io)
+•	Code editing: Ace Editor
+•	Version control: Git
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#Timeline:
+         The estimated timeline for the implementation in 12-16 weeks.
+•	Weeks 1-2: Requirement analysis and system design.
+•	Weeks 3-6: Planning of designing.
+•	Weeks 7-9: Development and coding of the system.
+•	Week 10: Reporting.
+•	Weeks 11-12: Analysis.
+•	Weeks 13-14: Optimization.
+•	Weeks 15-16: Training sessions and final adjustments.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#Resources:
+ For successful project execution, the project will require access to development tools, hosting services, and libraries/frameworks mentioned in the "Tools and Technologies" section. Additionally, collaboration tools for communication among team members will be utilized.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# Live-Code-Editor
+#Expected Outcomes:
+       Upon completion, the project is expected to deliver:
+•	A functional web-based live code editor platform.
+•	User documentation for seamless onboarding.
+•	Demonstrations showcasing real-time collaboration capabilities.
+•	Source code repository for future maintenance and enhancements.
+ 
+ 

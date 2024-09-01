@@ -136,8 +136,31 @@ footer a{
 }
 
 .CodeMirror {
-  min-height: calc(100vh - 20px);
+  min-height: calc(100vh - 59px);
   font-size: 20px;
   line-height: 1.6;
   padding-top: 20px;
+}
+
+#themeSelector {
+  color: white;
+  background-color: #424242;;
+  border: none;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  appearance: none; /* This removes the default dropdown arrow */
+}
+
+#themeSelector option {
+  color: black;
+  background-color: white;
+}
+
+/* You can add a custom dropdown arrow using a background image */
+#themeSelector {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 140 140" width="50" height="50" xmlns="http://www.w3.org/2000/svg"><path d="M35 55l35 35 35-35z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right .7em top 50%, 0 0; /* Position the background image */
+  background-size: .65em auto, 100%; /* Size the background image */
 }

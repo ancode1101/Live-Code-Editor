@@ -8,6 +8,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 const userSocketMap = {};
+const userThemeMap = {};
 function getAllConnectedClients(roomId) {
     return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map(
         (socketId) => {
@@ -36,7 +37,12 @@ io.on('connection', (socket) => {
             });
         }
     });
- 
+
+    socket.on(ACTIONS.THEME_CHANGE, ({ roomId, theme }) => {
+        userThemeMap[socket.id] = theme;
+        console.log(theme);
+        socket.in(roomId).emit(ACTIONS.THEME_CHANGE, { theme });
+    });
 
     socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
         socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
@@ -45,6 +51,7 @@ io.on('connection', (socket) => {
     socket.on(ACTIONS.SYNC_CODE , ({ socketId, code }) => {
         io.to(socketId).emit(ACTIONS.CODE_CHANGE, { code });
     });
+
 
     socket.on('disconnecting', () => {
         const rooms = [...socket.rooms];
@@ -55,6 +62,7 @@ io.on('connection', (socket) => {
             });
         });
         delete userSocketMap[socket.id];
+        delete userThemeMap[socket.id];
         socket.leave();
     });
 

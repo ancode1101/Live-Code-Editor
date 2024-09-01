@@ -37,7 +37,7 @@ const EditorPage = () => {
     }
     // Log when connected
     socket.on('connect', () => {
-      console.log('Connected to server');
+      // console.log('Connected to server');
       
       // Emit JOIN event with roomId and username when connected
       socket.emit(ACTIONS.JOIN, {
@@ -56,7 +56,7 @@ const EditorPage = () => {
           code: CodeRef.current,
           socketId,
         });
-      });
+      },2000);
         // Listening for disconnected
       socket.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
         toast.success(`${username} left the room.`);
@@ -119,7 +119,7 @@ const EditorPage = () => {
           </div>
         </div>
         <button className="btn copyBtn" onClick={copyRoomId}>Copy ROOM ID</button>
-        <button className="btn leaveBtn" on onClick={leaveRoom}>Leave</button>
+        <button className="btn leaveBtn" onClick={leaveRoom}>Leave</button>
       </div>
       <div className="editorWrap">
         <Editor 

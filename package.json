@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "codemirror": "5.59.2",
     "express": "^4.18.3",
+    "jspdf": "^2.5.1",
     "react": "^18.2.0",
     "react-avatar": "^5.0.3",
     "react-codemirror2": "^7.3.0",
@@ -21,7 +22,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"react-scripts start\" \"nodemon server.js\"",
     "build": "react-scripts build",
     "server:dev": "nodemon server.js",
     "server:prod": "node server.js",
@@ -48,6 +49,7 @@
   },
   "devDependencies": {
     "@types/codemirror": "^5.60.15",
+    "concurrently": "^8.2.2",
     "nodemon": "^3.1.0"
   }
 }

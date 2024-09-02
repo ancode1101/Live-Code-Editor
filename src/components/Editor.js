@@ -4,28 +4,17 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/edit/closetag';
 import 'codemirror/addon/edit/closebrackets';
-import { themes } from './Theme';
-import { jsPDF } from 'jspdf'; // Import jsPDF for PDF generation
+// import { themes } from './Theme';
+// import { jsPDF } from 'jspdf'; // Import jsPDF for PDF generation
 import ACTIONS from "../Actions";
 
 const Editor = ({ socket, roomId, onCodeChange }) => {
   const editorRef = useRef(null);
   const [theme, setTheme] = useState('dracula');
 
-  // Function to generate PDF
-  const generatePDF = () => {
-    const code = editorRef.current.getValue();
-    const doc = new jsPDF();
-    doc.setFontSize(12); // Set font size
-    doc.setFont('courier', 'normal'); // Set font type
-    doc.text(code, 10, 10); // Adjust coordinates and styling as needed
-    doc.save("code.pdf");
-  };
-
   useEffect(() => {
-    // CodeMirror initialization
     const init = async () => {
-      if (editorRef.current && typeof editorRef.current.getAttribute === 'function') {
+      if (editorRef.current) {
         editorRef.current = CodeMirror.fromTextArea(editorRef.current, {
           mode: { name: 'javascript', json: true },
           theme: theme,
@@ -33,8 +22,6 @@ const Editor = ({ socket, roomId, onCodeChange }) => {
           autoCloseBrackets: true,
           lineNumbers: true,
         });
-      } else {
-        console.error('Textarea element is not valid for CodeMirror initialization');
       }
     };
     init();
@@ -43,25 +30,15 @@ const Editor = ({ socket, roomId, onCodeChange }) => {
   const handleThemeChange = (e) => {
     const selectedTheme = e.target.value;
     setTheme(selectedTheme);
-    localStorage.setItem('userTheme', selectedTheme);
-    socket.emit(ACTIONS.THEME_CHANGE, {
-      roomId,
-      theme: selectedTheme,
-    });
+    if (editorRef.current) {
+      editorRef.current.setOption('theme', selectedTheme);
+    }
   };
 
   useEffect(() => {
-    // Code synchronization and events
     if (!editorRef.current) return;
 
-    const storedTheme = localStorage.getItem('userTheme');
-    if (storedTheme) {
-      setTheme(storedTheme);
-    }
-
-    editorRef.current.setOption('theme', theme);
-
-    // Event listeners
+    // Code sync and events
     editorRef.current.on('change', (instance, changes) => {
       const { origin } = changes;
       const code = instance.getValue();
@@ -80,31 +57,21 @@ const Editor = ({ socket, roomId, onCodeChange }) => {
       }
     });
 
-    socket.on(ACTIONS.THEME_CHANGE, ({ theme }) => {
-      setTheme(theme);
-      editorRef.current.setOption('theme', theme);
-    });
-
+    // Cleanup on unmount
     return () => {
       socket.off(ACTIONS.CODE_CHANGE);
     };
-  }, [editorRef, theme, socket, onCodeChange, roomId]);
+  }, [editorRef, socket, onCodeChange, roomId]);
 
   return (
     <div>
-      {/* Dropdown to select theme */}
       <select id="themeSelector" onChange={handleThemeChange} value={theme}>
-        {themes.map((themeName, index) => (
-          <option key={index} value={themeName}>
-            {themeName}
-          </option>
-        ))}
+        {/* Add your desired themes here */}
+        <option value="dracula">Dracula</option>
+        <option value="3024-day">3024-day</option>
+        <option value="3024-night">3024-night</option>
+        {/* ... other themes ... */}
       </select>
-      
-      {/* Button to trigger PDF generation */}
-      {/* <button onClick={generatePDF}>Save as PDF</button> */}
-
-      {/* Code editor */}
       <textarea ref={editorRef} id="livecodeeditor"></textarea>
     </div>
   );

@@ -71,7 +71,7 @@ const EditorPage = () => {
  
     // Clean up when component unmounts
     return () => {
-      // socket.disconnect();
+      socket.disconnect();
       socket.off(ACTIONS.JOINED);
       socket.off(ACTIONS.DISCONNECTED);
     };

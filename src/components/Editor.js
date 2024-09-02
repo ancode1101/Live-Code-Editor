@@ -4,27 +4,23 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/addon/edit/closetag';
 import 'codemirror/addon/edit/closebrackets';
-// import { themes } from './Theme';
-// import { jsPDF } from 'jspdf'; // Import jsPDF for PDF generation
 import ACTIONS from "../Actions";
 
 const Editor = ({ socket, roomId, onCodeChange }) => {
+  const textareaRef = useRef(null);
   const editorRef = useRef(null);
   const [theme, setTheme] = useState('dracula');
 
   useEffect(() => {
-    const init = async () => {
-      if (editorRef.current) {
-        editorRef.current = CodeMirror.fromTextArea(editorRef.current, {
-          mode: { name: 'javascript', json: true },
-          theme: theme,
-          autoCloseTags: true,
-          autoCloseBrackets: true,
-          lineNumbers: true,
-        });
-      }
-    };
-    init();
+    if (textareaRef.current && !editorRef.current) {
+      editorRef.current = CodeMirror.fromTextArea(textareaRef.current, {
+        mode: { name: 'javascript', json: true },
+        theme: theme,
+        autoCloseTags: true,
+        autoCloseBrackets: true,
+        lineNumbers: true,
+      });
+    }
   }, [theme]);
 
   const handleThemeChange = (e) => {
@@ -66,13 +62,12 @@ const Editor = ({ socket, roomId, onCodeChange }) => {
   return (
     <div>
       <select id="themeSelector" onChange={handleThemeChange} value={theme}>
-        {/* Add your desired themes here */}
         <option value="dracula">Dracula</option>
-        <option value="3024-day">3024-day</option>
-        <option value="3024-night">3024-night</option>
-        {/* ... other themes ... */}
+        <option value="monokai">Monokai</option>
+        <option value="material">Material</option>
+        {/* Add more themes as needed */}
       </select>
-      <textarea ref={editorRef} id="livecodeeditor"></textarea>
+      <textarea ref={textareaRef}></textarea>
     </div>
   );
 };

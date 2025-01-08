@@ -33,7 +33,7 @@ const EditorPage = () => {
     function handleErrors(e) {
       console.log('socket error', e);
       toast.error('Socket connection failed, try again later.');
-      reactNavigator('/');
+      // reactNavigator('/');
     }
     // Log when connected
     socket.on('connect', () => {

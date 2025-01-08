@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import Client from '../components/Client';
 import Editor from '../components/Editor';
 import socket from '../socket';
 import toast from 'react-hot-toast';
-import ACTIONS from '../Actions'
+import ACTIONS from '../Actions';
 import { 
   useLocation,
   useNavigate, 
@@ -12,42 +12,43 @@ import {
 } from 'react-router-dom';
 
 const EditorPage = () => {
-
   const [clients, setClients] = useState([]);
   const { roomId } = useParams();
   const CodeRef = useRef(null);
   const socketRef = useRef(null);
-  // const isSocketInitialized = useRef(false);
   const location = useLocation();
-  const reactNavigator = useNavigate(); 
+  const reactNavigator = useNavigate();
+  const reconnectAttempts = useRef(0);
+  const maxReconnectAttempts = 3;
+
   useEffect(() => {
-    // Check if the socket is already connected
-    if (!socket.connected) {
-      // Connect to the server if not already connected
-      socket.connect();
-    }
+    const initializeSocket = () => {
+      // Configure socket before connecting
+      socket.io.opts.transports = ['websocket', 'polling'];
+      socket.io.opts.reconnectionAttempts = maxReconnectAttempts;
+      socket.io.opts.reconnectionDelay = 1000;
+      socket.io.opts.timeout = 10000;
 
-    socket.on('connect_error', (err) => handleErrors(err));
-    socket.on('connect_failed', (err) => handleErrors(err));
+      if (!socket.connected) {
+        socket.connect();
+      }
 
-    function handleErrors(e) {
-      console.log('socket error', e);
-      toast.error('Socket connection failed, try again later.');
-      // reactNavigator('/');
-    }
-    // Log when connected
-    socket.on('connect', () => {
-      // console.log('Connected to server');
-      
-      // Emit JOIN event with roomId and username when connected
-      socket.emit(ACTIONS.JOIN, {
-        roomId, // Assuming roomId is passed from location state
-        username: location.state?.username,
+      socket.on('connect_error', handleErrors);
+      socket.on('connect_failed', handleErrors);
+      socket.on('error', handleErrors);
+
+      socket.on('connect', () => {
+        console.log('Connected to server');
+        reconnectAttempts.current = 0;
+        
+        socket.emit(ACTIONS.JOIN, {
+          roomId,
+          username: location.state?.username,
+        });
       });
 
       socket.on(ACTIONS.JOINED, ({ clients, username, socketId }) => {
         if (username !== location.state?.username) {
-          // Assuming 'toast' is imported from 'react-hot-toast'
           toast.success(`${username} joined the room.`);
           console.log(`${username} joined`);
         }
@@ -56,26 +57,47 @@ const EditorPage = () => {
           code: CodeRef.current,
           socketId,
         });
-      },2000);
-        // Listening for disconnected
+      });
+
       socket.on(ACTIONS.DISCONNECTED, ({ socketId, username }) => {
         toast.success(`${username} left the room.`);
-        setClients((prev) => {
-          return prev.filter(
-            (client) => client.socketId !== socketId
-          );
-        }); 
+        setClients((prev) => prev.filter(
+          (client) => client.socketId !== socketId
+        ));
       });
+    };
+
+    function handleErrors(err) {
+      console.error('Socket error:', err);
+      reconnectAttempts.current += 1;
       
-    });
- 
-    // Clean up when component unmounts
+      if (reconnectAttempts.current >= maxReconnectAttempts) {
+        toast.error('Unable to connect to the server. Please try again later.');
+        reactNavigator('/');
+      } else {
+        toast.error(`Connection attempt ${reconnectAttempts.current} failed. Retrying...`);
+        
+        // Attempt to reconnect after a delay
+        setTimeout(() => {
+          if (!socket.connected) {
+            socket.connect();
+          }
+        }, 2000);
+      }
+    }
+
+    initializeSocket();
+
     return () => {
-      socket.disconnect();
+      socket.off('connect');
+      socket.off('connect_error');
+      socket.off('connect_failed');
+      socket.off('error');
       socket.off(ACTIONS.JOINED);
       socket.off(ACTIONS.DISCONNECTED);
+      socket.disconnect();
     };
-  }, [location]);
+  }, [location, roomId, reactNavigator]);
 
   async function copyRoomId() {
     try {
@@ -92,7 +114,7 @@ const EditorPage = () => {
   }
 
   if (!location.state) {
-    return <Navigate to = "/" />; 
+    return <Navigate to="/" />; 
   }
   
   return ( 
@@ -108,14 +130,12 @@ const EditorPage = () => {
           </div>
           <h3>Connected</h3>
           <div className="clientsList">
-            <div className="clientsList">
-              {clients.map((client) => (
-                <Client 
-                  key={client.socketId} 
-                  username={client.username}
-                />
-              ))}
-            </div>
+            {clients.map((client) => (
+              <Client 
+                key={client.socketId} 
+                username={client.username}
+              />
+            ))}
           </div>
         </div>
         <button className="btn copyBtn" onClick={copyRoomId}>Copy ROOM ID</button>
@@ -123,9 +143,9 @@ const EditorPage = () => {
       </div>
       <div className="editorWrap">
         <Editor 
-          socket = {socket} 
-          roomId = {roomId} 
-          onCodeChange= {(code) => {
+          socket={socket} 
+          roomId={roomId} 
+          onCodeChange={(code) => {
             CodeRef.current = code;
           }}
         />
@@ -134,4 +154,4 @@ const EditorPage = () => {
   );
 };
 
-export default EditorPage
+export default EditorPage;

@@ -1,3 +1,86 @@
+<div align="center">
+
+# LIVE-CODE-EDITOR  
+*Transform Collaboration, Accelerate Innovation Instantly*
+
+![last-commit](https://img.shields.io/github/last-commit/ancode1101/Live-Code-Editor?style=flat&logo=git&logoColor=white&color=0080ff)
+![repo-top-language](https://img.shields.io/github/languages/top/ancode1101/Live-Code-Editor?style=flat&color=0080ff)
+![repo-language-count](https://img.shields.io/github/languages/count/ancode1101/Live-Code-Editor?style=flat&color=0080ff)
+
+**Built with the tools and technologies:**
+
+![Express](https://img.shields.io/badge/Express-000000.svg?style=flat&logo=Express&logoColor=white)
+![JSON](https://img.shields.io/badge/JSON-000000.svg?style=flat&logo=JSON&logoColor=white)
+![Markdown](https://img.shields.io/badge/Markdown-000000.svg?style=flat&logo=Markdown&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-010101.svg?style=flat&logo=socketdotio&logoColor=white)
+![CodeMirror](https://img.shields.io/badge/CodeMirror-D30707.svg?style=flat&logo=CodeMirror&logoColor=white)
+![npm](https://img.shields.io/badge/npm-CB3837.svg?style=flat&logo=npm&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=flat&logo=JavaScript&logoColor=black)
+![Nodemon](https://img.shields.io/badge/Nodemon-76D04B.svg?style=flat&logo=Nodemon&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB.svg?style=flat&logo=React&logoColor=black)
+![Yarn](https://img.shields.io/badge/Yarn-2C8EBB.svg?style=flat&logo=Yarn&logoColor=white)
+![Socket](https://img.shields.io/badge/Socket-C93CD7.svg?style=flat&logo=Socket&logoColor=white)
+
+</div>
+
+---
+
+## 📑 Table of Contents
+
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Testing](#testing)
+
+---
+
+## 📌 Overview
+
+**Live-Code-Editor** is an open-source platform that empowers developers to create real-time, collaborative coding environments within a web interface. It seamlessly synchronizes code changes among multiple users, facilitating team collaboration, pair programming, or educational sessions.
+
+### Why Live-Code-Editor?
+
+This project simplifies building scalable, interactive coding platforms. The core features include:
+
+- 🧩 **🔗 WebSocket Communication:** Ensures real-time, bidirectional data exchange for instant collaboration.
+- 🎨 **🖌️ Customizable Themes:** Offers a variety of syntax highlighting styles to enhance user experience.
+- 🚀 **⚙️ Room Management:** Facilitates easy onboarding, session creation, and user management.
+- 📊 **📈 Performance Monitoring:** Tracks app responsiveness to maintain a smooth user interface.
+- 🔧 **🛠️ Modular Architecture:** Combines React UI with robust server infrastructure for scalable deployment.
+
+---
+
+## 🚀 Getting Started
+
+### 🔧 Prerequisites
+
+This project requires the following dependencies:
+
+- **Programming Language:** JavaScript
+- **Package Manager:** npm or yarn
+
+---
+
+### 📦 Installation
+
+Build Live-Code-Editor from source and install dependencies:
+
+```sh
+# Clone the repository
+git clone https://github.com/ancode1101/Live-Code-Editor
+
+# Navigate to the project directory
+cd Live-Code-Editor
+
+# Install dependencies using npm
+npm install
+
+# OR using yarn
+yarn install
+
+
 #Live Code Editor
 –	PROJECT PROPOSAL
 
